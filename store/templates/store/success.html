@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block header_text %}
+{% endblock header_text %}
+
+{% block header_poster %}
+{% endblock header_poster %}
+
+
+{% block main %}
+<div class="container">
+    <div class="content">
+        <h2>To'lovingiz amalga oshirildi!</h2>
+        <p>Haridni davom ettirishingiz mumkin.</p>
+        <a class="btn btn-success" href="{% url 'product_list' %}">Asosiy sahifaga qaytish</a>
+    </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block header_text %}
+{% endblock header_text %}
+
+{% block header_poster %}
+{% endblock header_poster %}
+
+
+{% block main %}
+<main>
+    <section class="product_detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {% include 'store/components/_product_slider.html' %}
+                </div>
+                <div class="col-md-6">
+                    <div class="product_detail-info">
+                        <h2 class="product_detail-title">{{ product.title }}</h2>
+                        <p class="product_detail-desc">{{ product.category.title }}</p>
+                        <p class="product_detail-price">${{ product.price }}</p>
+
+                        <ul class="product_detail-characteristic">
+                            <li class="product_detail-characteristic_item d-flex justify-content-between">
+                                <span>Size (mm)</span>
+                                <span>{{ product.size }}</span>
+                            </li>
+                            <li class="product_detail-characteristic_item d-flex justify-content-between">
+                                <span>Colour</span>
+                                <span>{{ product.color }}</span>
+                            </li>
+                            <li class="product_detail-characteristic_item d-flex justify-content-between">
+                                <span>Category</span>
+                                <span>{{ product.category.title }}</span>
+                            </li>
+                            <li class="product_detail-characteristic_item d-flex justify-content-between">
+                                <span>Details</span>
+                                <span>{{ product.description }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="product_detail-guarantee">30 days return, free shipping</p>
+                    <button class="product_detail-buy_btn">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'store/components/_brand_info.html' %}
+
+    {% include 'store/components/_reviews.html' %}
+
+    <div class="container">
+        {% if request.user.is_authenticated %}
+
+        <form action="{% url 'save_review' product.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ review_form.text }}
+            <button class="btn btn-success" type="submit">Sharh qoldirish</button>
+        </form>
+
+
+        {% else %}
+        <p><b>Izohni faqat ro'yxatdan o'tgan foydalanuvchilar qoldira oldi!</b></p>
+        <a class="btn btn-primary" href="{% url 'login_registration' %}">Ro'yxatdan o'tish</a>
+        {% endif %}
+    </div>
+
+
+    <div class="recommended_goods">
+        <h2 class="product_detail-main-title text-center">You may also like</h2>
+
+        <!-- PRODUCTS BLOCK START -->
+        <div class="container">
+            <div class="row">
+                {% for product in products %}
+                {% include 'store/components/_product_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- PRODUCTS BLOCK END -->
+
+    </div>
+
+
+    <!-- BLOCK EMAIL FORM START -->
+    {% include 'store/components/_email_form.html' %}
+    <!-- BLOCK EMAIL FORM END -->
+</main>
+{% endblock main %}
